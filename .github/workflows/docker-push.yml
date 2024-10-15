@@ -33,6 +33,9 @@ jobs:
             "dqzboy/mirror-elastic:latest"
           )
 
+          # 获取 Docker Hub 用户名
+          username=${{ secrets.DOCKER_USERNAME }}
+
           # 循环处理每个镜像
           for image in "${images[@]}"; do
             # 拉取镜像
@@ -42,8 +45,8 @@ jobs:
             image_name=$(echo $image | cut -d'/' -f2 | cut -d':' -f1)
 
             # 标记镜像
-            docker tag $image yourusername/$image_name:latest
+            docker tag $image $username/$image_name:latest
 
             # 上传镜像
-            docker push yourusername/$image_name:latest
+            docker push $username/$image_name:latest
           done
